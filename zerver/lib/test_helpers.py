@@ -1,3 +1,24 @@
+"""
+Testing requests in backend tests (Issue #1211)
+
+Historically, some tests used to create manual `Request` classes to simulate POST requests.
+These classes have been replaced with helpers and with `django.test.RequestFactory`.
+
+Today, the correct way to create a request in tests is by using RequestFactory:
+
+    from django.test import RequestFactory
+
+    rf = RequestFactory()
+    request = rf.post("/some/url/", {"foo": "bar"})
+    request.META["REMOTE_ADDR"] = "127.0.0.1"
+
+    # Use the request object in your test:
+    # response = my_view(request)
+
+This practice avoids code duplication and keeps tests compatible with the Django framework.
+Issue #1211 specifically addressed this migration.
+"""
+
 import collections
 import itertools
 import os
